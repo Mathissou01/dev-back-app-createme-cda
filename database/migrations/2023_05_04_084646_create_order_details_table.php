@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('order_id');
             $table->string('product_id');
+            $table->string('wood');
+            $table->string('sound_effect');
+            $table->json('sound_settings');
+            $table->string('light');
+            $table->string('engraving');
+            $table->string('pack');
             $table->integer('quantity');
             $table->integer('unitcost');
             $table->integer('total');
