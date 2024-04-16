@@ -80,8 +80,8 @@
                             <tbody>
                                 @foreach ($users as $user)
                                 <tr>
-                                    <th scope="row">{{ (($customers->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
-                                    <td>{{ $user->name }}</td>
+                                    <th scope="row">{{ (($users->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
+                                    <td>{{ $user->userName }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
                                     <td>
