@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->string("userId")->primary(); 
+         Schema::create('users', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('userId')->unique();
             $table->string('userName')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique()->nullable();
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->timestamp('lastSeen')->nullable(); // Ajout du champ lastSeen
+            $table->timestamp('lastSeen')->nullable(); 
         });
     }
 
