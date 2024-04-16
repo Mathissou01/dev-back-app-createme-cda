@@ -29,7 +29,7 @@ class UpdateAdminRequest extends FormRequest
                 'required',
                 'email',
                 'max:50',
-                Rule::unique('users', 'email')->ignore($this->user)
+                Rule::unique('admins', 'email')->ignore($this->admin)
             ],
             'username' => [
                 'required',
@@ -37,7 +37,7 @@ class UpdateAdminRequest extends FormRequest
                 'max:25',
                 'alpha_dash:ascii',
                 //'unique:users,username,'.$user->id
-                Rule::unique('users', 'username')->ignore($this->user)
+                Rule::unique('admins', 'username')->ignore($this->admin)
             ],
         ];
     }

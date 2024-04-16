@@ -44,7 +44,7 @@ class AdminController extends Controller
      */
     public function store(StoreAdminRequest $request)
     {
-        $user = Admin::create($request->all());
+        $admin = Admin::create($request->all());
 
         /**
          * Handle upload an image
@@ -54,7 +54,7 @@ class AdminController extends Controller
             $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
 
             $file->storeAs('profile/', $filename, 'public');
-            $user->update([
+            $admin->update([
                 'photo' => $filename
             ]);
         }

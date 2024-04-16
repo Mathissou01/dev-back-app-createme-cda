@@ -17,8 +17,8 @@
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('customers.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Add</a>
-                    <a href="{{ route('customers.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Clear Search</a>
+                    <a href="{{ route('users.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Add</a>
+                    <a href="{{ route('users.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Clear Search</a>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
         <div class="card-body">
             <div class="row mx-n4">
                 <div class="col-lg-12 card-header mt-n4">
-                    <form action="{{ route('customers.index') }}" method="GET">
+                    <form action="{{ route('users.index') }}" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
                                 <label for="row" class="col-auto">Row:</label>
@@ -78,16 +78,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($customers as $customer)
+                                @foreach ($users as $user)
                                 <tr>
                                     <th scope="row">{{ (($customers->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
-                                    <td>{{ $customer->name }}</td>
-                                    <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->phone }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->phone }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST">
+                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
 
-                {{ $customers->links() }}
+                {{ $users->links() }}
             </div>
         </div>
     </div>

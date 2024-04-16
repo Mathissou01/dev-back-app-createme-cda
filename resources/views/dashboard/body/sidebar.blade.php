@@ -42,7 +42,7 @@
             </a>
             <!-- Sidenav Heading (Pages)-->
             <div class="sidenav-menu-heading">Pages</div>
-            <a class="nav-link {{ Request::is('customers*') ? 'active' : '' }}" href="{{ route('customers.index') }}">
+            <a class="nav-link {{ Request::is('customers*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Clients
             </a>

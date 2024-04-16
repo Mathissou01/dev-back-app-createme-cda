@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,24 +18,24 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+            'admin' => $request->admin(),
         ]);
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $user = $request->user()->fill($request->validated());
+        $admin = $request->admin()->fill($request->validated());
 
         $rules = [
             'name' => 'required|max:50',
             'photo' => 'image|file|max:1024',
-            'email' => 'required|email|max:50|unique:users,email,'.$user->id,
-            'username' => 'required|min:4|max:25|alpha_dash:ascii|unique:users,username,'.$user->id
+            'email' => 'required|email|max:50|unique:users,email,'.$admin->id,
+            'username' => 'required|min:4|max:25|alpha_dash:ascii|unique:users,username,'.$admin->id
         ];
 
         $validatedData = $request->validate($rules);
 
-        if ($validatedData['email'] != $user->email) {
+        if ($validatedData['email'] != $admin->email) {
             $validatedData['email_verified_at'] = null;
         }
 
@@ -49,8 +49,8 @@ class ProfileController extends Controller
             /**
              * Delete an image if exists.
              */
-            if($user->photo){
-                Storage::delete($path . $user->photo);
+            if($admin->photo){
+                Storage::delete($path . $admin->photo);
             }
 
             /**
@@ -60,7 +60,7 @@ class ProfileController extends Controller
             $validatedData['photo'] = $fileName;
         }
 
-        User::where('id', $user->id)->update($validatedData);
+        Admin::where('id', $admin->id)->update($validatedData);
 
         return redirect()
             ->route('profile.edit')
@@ -70,7 +70,7 @@ class ProfileController extends Controller
     public function settings(Request $request): View
     {
         return view('profile.settings', [
-            'user' => $request->user(),
+            'admin' => $request->admin(),
         ]);
     }
 
@@ -83,11 +83,11 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $user = $request->user();
+        $admin = $request->admin();
 
         Auth::logout();
 
-        $user->delete();
+        $admin->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

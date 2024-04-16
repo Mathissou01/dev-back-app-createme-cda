@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
+use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -11,18 +11,18 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    private User $user;
+    private Admin $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->user = $this->createUser();
+        $this->admin = $this->createUser();
     }
 
-    private function createUser(): User
+    private function createUser(): Admin
     {
-        return User::factory()->create();
+        return Admin::factory()->create();
     }
 
     public function test_login_screen_can_be_rendered(): void
@@ -37,7 +37,7 @@ class AuthenticationTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->actingAs($this->user)->get('/login');
+        $response = $this->actingAs($this->admin)->get('/login');
 
         $response->assertRedirect(RouteServiceProvider::HOME);
         $response->assertRedirect('/dashboard');
@@ -46,7 +46,7 @@ class AuthenticationTest extends TestCase
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $this->post('/login', [
-            'email' => $this->user->email,
+            'email' => $this->admin->email,
             'password' => 'wrong-password',
         ]);
 

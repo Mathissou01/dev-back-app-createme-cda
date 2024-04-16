@@ -19,13 +19,13 @@ class UserController extends Controller
             abort(400, 'The per-page parameter must be an integer between 1 and 100.');
         }
 
-        $customers = User::filter(request(['search']))
+        $users = User::filter(request(['search']))
             ->sortable()
             ->paginate($row)
             ->appends(request()->query());
 
         return view('users.index', [
-            'customers' => $customers
+            'users' => $users
         ]);
     }
 
