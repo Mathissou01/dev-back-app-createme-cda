@@ -42,7 +42,7 @@
             </a>
             <!-- Sidenav Heading (Pages)-->
             <div class="sidenav-menu-heading">Pages</div>
-            <a class="nav-link {{ Request::is('customers*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+            <a class="nav-link {{ Request::is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Clients
             </a>
@@ -68,7 +68,7 @@
 
             <!-- Sidenav Heading (Settings)-->
             <div class="sidenav-menu-heading">Paramètres</div>
-            <a class="nav-link {{ Request::is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+            <a class="nav-link {{ Request::is('admins*') ? 'active' : '' }}" href="{{ route('admins.index') }}">
                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 Utilisateurs
             </a>

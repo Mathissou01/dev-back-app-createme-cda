@@ -8,17 +8,17 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
-                        <div class="page-header-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="page-header-icon"><i class="fa-solid fa-admins"></i></div>
                         Liste d'utilisateur
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('users.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
-                    <a href="{{ route('users.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
+                    <a href="{{ route('admins.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
+                    <a href="{{ route('admins.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
                 </div>
             </div>
 
-            @include('partials._breadcrumbs', ['model' => $users])
+            @include('partials._breadcrumbs', ['model' => $admins])
         </div>
     </div>
 
@@ -30,7 +30,7 @@
         <div class="card-body">
             <div class="row mx-n4">
                 <div class="col-lg-12 card-header mt-n4">
-                    <form action="{{ route('users.index') }}" method="GET">
+                    <form action="{{ route('admins.index') }}" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
                                 <label for="row" class="col-auto">Ligne:</label>
@@ -74,16 +74,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($admins as $admin)
                                 <tr>
-                                    <th scope="row">{{ (($users->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->username }}</td>
-                                    <td>{{ $user->email }}</td>
+                                    <th scope="row">{{ (($admins->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
+                                    <td>{{ $admin->name }}</td>
+                                    <td>{{ $admin->username }}</td>
+                                    <td>{{ $admin->email }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('users.edit', $user->username) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('users.destroy', $user->username) }}" method="POST">
+                                            <a href="{{ route('users.edit', $admin->username) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="{{ route('users.destroy', $admin->username) }}" method="POST">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
 
-                {{ $users->links() }}
+                {{ $admins->links() }}
             </div>
         </div>
     </div>

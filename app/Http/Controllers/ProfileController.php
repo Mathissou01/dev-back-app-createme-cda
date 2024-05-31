@@ -17,14 +17,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+     
         return view('profile.edit', [
-            'admin' => $request->admin(),
+            'admin' => $request->user(),
         ]);
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $admin = $request->admin()->fill($request->validated());
+        $admin = $request->user()->fill($request->validated());
 
         $rules = [
             'name' => 'required|max:50',
@@ -70,7 +71,7 @@ class ProfileController extends Controller
     public function settings(Request $request): View
     {
         return view('profile.settings', [
-            'admin' => $request->admin(),
+            'admin' => $request->user(),
         ]);
     }
 
@@ -83,7 +84,7 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $admin = $request->admin();
+        $admin = $request->user();
 
         Auth::logout();
 

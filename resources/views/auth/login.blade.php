@@ -53,7 +53,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-0">
                             <div class="form-check">
                                 <input class="form-check-input" id="remember_me" name="remember" type="checkbox" />
-                                <label class="form-check-label" for="remember_me">Se ouvenir de moi.</label>
+                                <label class="form-check-label" for="remember_me">Se souvenir de moi.</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Connexion</button>
                         </div>

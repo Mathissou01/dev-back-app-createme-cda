@@ -7,7 +7,7 @@
             <div class="row align-items-center justify-content-between pt-3">
                 <div class="col-auto mb-3">
                     <h1 class="page-header-title">
-                        <div class="page-header-icon"><i data-feather="user"></i></div>
+                        <div class="page-header-icon"><i data-feather="admin"></i></div>
                         Account Settings - Profile
                     </h1>
                 </div>
@@ -38,7 +38,7 @@
                     <div class="card-header">Profile Picture</div>
                     <div class="card-body text-center">
                         <!-- Profile picture image -->
-                        <img class="img-account-profile rounded-circle mb-2" src="{{ $user->photo ? asset('storage/profile/'.$user->photo) : asset('assets/img/illustrations/profiles/profile-1.png') }}" alt="" id="image-preview" />
+                        <img class="img-account-profile rounded-circle mb-2" src="{{ isset($admin->photo) ? asset('storage/profile/'.$admin->photo) : asset('assets/img/illustrations/profiles/profile-1.png') }}" alt="" id="image-preview" />
                         <!-- Profile picture help block -->
                         <div class="small font-italic text-muted mb-2">JPG or PNG no larger than 1 MB</div>
                         <!-- Profile picture input -->
@@ -62,8 +62,8 @@
                         <!-- Form Group (username) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="username">Username</label>
-                            <input class="form-control form-control-solid @error('username') is-invalid @enderror" id="username" name="username" type="text" placeholder="" value="{{ old('username', $user->username) }}" autocomplete="off" />
-                            @error('username')
+                            <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name', $admin->name) }}" autocomplete="off" />
+                            @error('name')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -72,7 +72,7 @@
                         <!-- Form Group (name) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="name">Full name</label>
-                            <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name', $user->name) }}" autocomplete="off" />
+                            <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name', $admin->name) }}" autocomplete="off" />
                             @error('name')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -82,7 +82,7 @@
                         <!-- Form Group (email address) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="email">Email address</label>
-                            <input class="form-control form-control-solid @error('photo') is-invalid @enderror" id="email" name="email" type="text" placeholder="" value="{{ old('email', $user->email) }}"  autocomplete="off" />
+                            <input class="form-control form-control-solid @error('photo') is-invalid @enderror" id="email" name="email" type="text" placeholder="" value="{{ old('email', $admin->email) }}"  autocomplete="off" />
                             @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}

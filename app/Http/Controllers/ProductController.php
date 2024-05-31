@@ -13,6 +13,9 @@ use Picqer\Barcode\BarcodeGeneratorHTML;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class ProductController extends Controller
 {
@@ -21,18 +24,22 @@ class ProductController extends Controller
      */
     public function index()
     {
+        // Retrieve the 'row' query parameter, defaulting to 10 if not provided
         $row = (int) request('row', 10);
 
+        // Validate that 'row' is an integer between 1 and 100
         if ($row < 1 || $row > 100) {
             abort(400, 'The per-page parameter must be an integer between 1 and 100.');
         }
 
+        // Fetch products with related category and unit, apply filtering and sorting, and paginate the results
         $products = Product::with(['category', 'unit'])
                 ->filter(request(['search']))
                 ->sortable()
                 ->paginate($row)
                 ->appends(request()->query());
 
+        // Return the view with the paginated products
         return view('products.index', [
             'products' => $products,
         ]);
@@ -209,13 +216,17 @@ class ProductController extends Controller
             ->with('success', 'Data product has been imported!');
     }
 
+
     /**
-     * Handle export data products.
+     * Handle the export of product data to an Excel file.
      */
-    function export(){
+    function export()
+    {
+        // Retrieve all products and sort them by product name
         $products = Product::all()->sortBy('product_name');
 
-        $product_array [] = array(
+        // Initialize an array with the column headers for the Excel export
+        $product_array[] = array(
             'Product Name',
             'Category Id',
             'Unit Id',
@@ -226,45 +237,89 @@ class ProductController extends Controller
             'Product Image',
         );
 
-        foreach($products as $product)
-        {
+        // Add each product to the data array
+        foreach($products as $product) {
             $product_array[] = array(
-                'Product Name' => $product->product_name,
-                'Category Id' => $product->category_id,
-                'Unit Id' => $product->unit_id,
-                'Product Code' => $product->product_code,
-                'Stock' => $product->stock,
-                'Buying Price' =>$product->buying_price,
-                'Selling Price' =>$product->selling_price,
-                'Product Image' => $product->product_image,
+                $product->product_name,
+                $product->category_id,
+                $product->unit_id,
+                $product->product_code,
+                $product->stock,
+                $product->buying_price,
+                $product->selling_price,
+                $product->product_image,
             );
         }
 
+        // Call the method to export the data to an Excel file
         $this->exportExcel($product_array);
     }
 
     /**
-     *This function loads the customer data from the database then converts it
-     * into an Array that will be exported to Excel
+     * Convert product data to an Excel file and initiate download.
+     * 
+     * @param array $products - The array of products to export
      */
-    public function exportExcel($products){
+    public function exportExcel($products)
+    {
+        // Increase maximum execution time and memory limit to handle large data
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');
 
         try {
+            // Create a new instance of Spreadsheet
             $spreadSheet = new Spreadsheet();
-            $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
-            $spreadSheet->getActiveSheet()->fromArray($products);
+            $sheet = $spreadSheet->getActiveSheet();
+
+            // Add styles to the headers
+            $headerStyle = [
+                'font' => [
+                    'bold' => true,
+                ],
+                'fill' => [
+                    'fillType' => Fill::FILL_SOLID,
+                    'startColor' => [
+                        'argb' => 'FFFF00',
+                    ],
+                ],
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => Border::BORDER_THIN,
+                    ],
+                ],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+
+            // Apply styles to the headers
+            $sheet->fromArray($products, NULL, 'A1');
+            $sheet->getStyle('A1:H1')->applyFromArray($headerStyle);
+
+            // Auto-size columns based on content
+            foreach(range('A', $sheet->getHighestColumn()) as $columnID) {
+                $sheet->getColumnDimension($columnID)->setAutoSize(true);
+            }
+
+            // Create a new sheet for additional information
+            $infoSheet = $spreadSheet->createSheet();
+            $infoSheet->setTitle('General Information');
+            $infoSheet->setCellValue('A1', 'Export Date');
+            $infoSheet->setCellValue('B1', date('Y-m-d H:i:s'));
+            $infoSheet->setCellValue('A2', 'Total Products');
+            $infoSheet->setCellValue('B2', count($products) - 1); // Including header
+
+            // Create a writer to generate an Excel file in .xls format
             $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="products.xls"');
             header('Cache-Control: max-age=0');
-            ob_end_clean();
-            $Excel_writer->save('php://output');
-            exit();
+            ob_end_clean(); // Clean output buffer to avoid unwanted characters
+            $Excel_writer->save('php://output'); // Save the Excel file to output stream (download)
+            exit(); // End script to avoid any additional output
         } catch (Exception $e) {
+            // In case of an exception, simply return without doing anything
             return;
         }
     }
-
 }

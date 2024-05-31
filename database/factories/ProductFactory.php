@@ -18,12 +18,17 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_name' => fake()->word(),
-            'category_id' => fake()->randomElement([1, 2, 3, 4, 5]),
-            'unit_id' => fake()->randomElement([1, 2, 3, 4, 5]),
-            'stock' => fake()->randomNumber(2),
-            'buying_price' => fake()->randomNumber(2),
-            'selling_price' => fake()->randomNumber(2),
+            'product_name' => $this->faker->word,
+            'category_id' => 1, // ou utilisez `Category::factory()` si vous avez une factory pour les catégories
+            'unit_id' => 1, // ou utilisez `Unit::factory()` si vous avez une factory pour les unités
+            'product_code' => $this->faker->unique()->numerify('P######'),
+            'stock' => $this->faker->numberBetween(1, 100),
+            'buying_price' => $this->faker->numberBetween(1, 100),
+            'selling_price' => $this->faker->numberBetween(1, 100),
+            'description' => $this->faker->sentence, // Ajoutez cette ligne
+            'small_description' => $this->faker->sentence, // Ajoutez cette ligne
+            'product_image' => null, // ou fournissez une valeur par défaut si nécessaire
+            'isActive' => true,
         ];
     }
 }
