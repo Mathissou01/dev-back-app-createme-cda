@@ -88,7 +88,7 @@
                                     <th scope="row">{{ (($products->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
                                     <td>
                                         <div style="max-height: 80px; max-width: 80px;">
-                                            <img class="img-fluid"  src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/img/products/default.webp') }}">
+                                            <img class="img-fluid" src="{{ $product->product_image }}">
                                         </div>
                                     </td>
                                     <td>{{ $product->product_name }}</td>
