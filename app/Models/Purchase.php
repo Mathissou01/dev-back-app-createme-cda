@@ -46,4 +46,8 @@ class Purchase extends Model
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
+       public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetails::class);
+    }
 }

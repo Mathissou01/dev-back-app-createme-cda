@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->string('purchaseId')->unique();
             $table->string('supplier_id');
             $table->string('purchase_date');
             $table->string('purchase_no');
@@ -20,15 +21,14 @@ return new class extends Migration
             $table->integer('total_amount');
             $table->string('created_by');
             $table->string('updated_by')->nullable();
-            $table->timestamps();
+            $table->timestamps(); // This adds 'created_at' and 'updated_at'
 
             // Additional columns from charge
             $table->integer('amount');
             $table->string('status');
-            $table->timestamp('created_at')->useCurrent();
             $table->string('email')->nullable();
             $table->string('receipt_url')->nullable();
-        });
+        }); 
     }
 
     /**

@@ -9,11 +9,9 @@ class PurchaseDetails extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'purchase_id',
-        'product_id',
-        'quantity',
-        'unitcost',
-        'total',
+         'purchase_id', 'product_id', 'quantity', 'unitcost', 'total',
+        'payment_method_id', 'card_brand', 'card_last4', 'card_exp_month',
+        'card_exp_year', 'card_fingerprint', 'card_country' 
     ];
 
     protected $guarded = [
