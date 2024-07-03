@@ -59,6 +59,26 @@ class DatabaseSeeder extends Seeder
         // Générez un tableau aléatoire de matériaux
         $materials = array_rand(array_flip($materialsList), rand(1, count($materialsList)));
        
+        Product::factory()->create([
+                 'product_name' => "Lanterne de Noël",
+                    'small_description' => "Lanterne de Noël décorative et chaleureuse",
+                    'description' => "Ajoutez une touche magique à vos décorations de Noël avec la Lanterne de Noël. Cette lanterne exquise diffuse une lumière douce et chaleureuse grâce à son design élégant et festif. Parfaite pour éclairer vos soirées d'hiver et créer une atmosphère accueillante, elle est dotée d'un motif détaillé inspiré des fêtes. Fabriquée avec des matériaux de haute qualité, cette lanterne est non seulement décorative mais aussi durable, garantissant une utilisation saison après saison. Offrez-vous ou offrez à vos proches cette Lanterne de Noël et transformez votre intérieur en un havre de paix illuminé de la magie des fêtes.",
+                    'category_id' => 1, // ID de la catégorie
+                    'unit_id' => '1',
+                    'product_code' => IdGenerator::generate([
+                        'table' => 'products',
+                        'field' => 'product_code',
+                        'length' => 4,
+                        'prefix' => 'PC'
+                    ]),
+                    'stock' => rand(1, 100),
+                    'buying_price' => rand(10, 100),
+                    'selling_price' => rand(50, 200),
+                    'isActive' => true,
+                    'product_image' => "https://i.ibb.co/981rQzp/IMG-1445.png",
+                    'materials' => json_encode($materials),
+                    'difficulty' => 5,
+                ]);
 
         Product::factory()->create([
             'product_name' => "Boite à outils",

@@ -21,6 +21,13 @@ return new class extends Migration
             $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->timestamps();
+
+            // Additional columns from charge
+            $table->integer('amount');
+            $table->string('status');
+            $table->timestamp('created_at')->useCurrent();
+            $table->string('email')->nullable();
+            $table->string('receipt_url')->nullable();
         });
     }
 
