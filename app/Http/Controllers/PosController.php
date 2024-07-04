@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -26,7 +26,7 @@ class PosController extends Controller
                 ->paginate($row)
                 ->appends(request()->query());
 
-        $customers = Customer::all()->sortBy('name');
+        $customers = User::all()->sortBy('name');
 
         $carts = Cart::content();
 
@@ -102,7 +102,7 @@ class PosController extends Controller
         ];
 
         $validatedData = $request->validate($rules);
-        $customer = Customer::where('id', $validatedData['customer_id'])->first();
+        $customer = User::where('id', $validatedData['customer_id'])->first();
         $carts = Cart::content();
 
         return view('pos.create', [

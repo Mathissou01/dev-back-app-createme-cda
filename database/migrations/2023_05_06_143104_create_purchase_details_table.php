@@ -18,14 +18,19 @@ return new class extends Migration
             $table->integer('quantity');
             $table->integer('unitcost');
             $table->integer('total');
-            $table->timestamps();
             $table->string('payment_method_id');
-            $table->string('card_brand');
-            $table->string('card_last4');
-            $table->integer('card_exp_month');
-            $table->integer('card_exp_year');
-            $table->string('card_fingerprint');
-            $table->string('card_country');
+            $table->string('card_brand')->nullable();
+            $table->string('card_last4')->nullable();
+            $table->integer('card_exp_month')->nullable();
+            $table->integer('card_exp_year')->nullable();
+            $table->string('card_fingerprint')->nullable();
+            $table->string('card_country')->nullable();
+            $table->boolean('card_checks_address_line1_check')->nullable();
+            $table->boolean('card_checks_address_postal_code_check')->nullable();
+            $table->boolean('card_checks_cvc_check')->nullable();
+            $table->integer('amount_authorized')->nullable();
+            $table->string('card_network')->nullable();
+            $table->timestamps();
         });
     }
 

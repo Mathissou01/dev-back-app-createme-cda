@@ -13,12 +13,12 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-users"></i></div>
-                        Customer List
+                        Liste des clients
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('users.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Add</a>
-                    <a href="{{ route('users.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Clear Search</a>
+                    <a href="{{ route('users.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
+                    <a href="{{ route('users.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Rafraichir</a>
                 </div>
             </div>
 
@@ -49,10 +49,10 @@
                             </div>
 
                             <div class="form-group row align-items-center justify-content-between">
-                                <label class="control-label col-sm-3" for="search">Search:</label>
+                                <label class="control-label col-sm-3" for="search">Chercher:</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Search customer" value="{{ request('search') }}">
+                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Chercher un client" value="{{ request('search') }}">
                                         <div class="input-group-append">
                                             <button type="submit" class="input-group-text bg-primary"><i class="fa-solid fa-magnifying-glass font-size-20 text-white"></i></button>
                                         </div>
@@ -70,10 +70,9 @@
                         <table class="table table-striped">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">No.</th>
-                                    <th scope="col">@sortablelink('name')</th>
-                                    <th scope="col">@sortablelink('email')</th>
-                                    <th scope="col">Phone</th>
+                                    <th scope="col">Id.</th>
+                                    <th scope="col">@sortablelink('Identité')</th>
+                                    <th scope="col">@sortablelink('Email')</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -83,7 +82,6 @@
                                     <th scope="row">{{ (($users->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
                                     <td>{{ $user->userName }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone }}</td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>

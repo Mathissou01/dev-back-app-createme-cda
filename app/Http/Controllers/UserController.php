@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -40,26 +41,28 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+     public function store(StoreUserRequest $request)
     {
-        $customer = User::create($request->all());
+        try {
+            $customer = User::create($request->all());
 
-        /**
-         * Handle upload an image
-         */
-        if($request->hasFile('photo')){
-            $file = $request->file('photo');
-            $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
+            if($request->hasFile('photo')){
+                $file = $request->file('photo');
+                $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
 
-            $file->storeAs('users/', $filename, 'public');
-            $customer->update([
-                'photo' => $filename
-            ]);
+                $file->storeAs('users/', $filename, 'public');
+                $customer->update([
+                    'photo' => $filename
+                ]);
+            }
+
+            return redirect()
+                ->route('users.index')
+                ->with('success', 'New customer has been created!');
+        } catch (\Exception $e) {
+            Log::error('Error creating user: ' . $e->getMessage());
+            return back()->with('error', 'An error occurred while creating the user.');
         }
-
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'New customer has been created!');
     }
 
     /**
@@ -75,7 +78,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('customers.edit', [
+        return view('users.edit', [
             'user' => $user
         ]);
     }
