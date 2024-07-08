@@ -68,9 +68,9 @@
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Purchase</th>
-                                    <th scope="col">@sortablelink('supplier.name', 'Supplier')</th>
-                                    <th scope="col">@sortablelink('purchase_date', 'Date')</th>
-                                    <th scope="col">@sortablelink('total')</th>
+                                    <th scope="col">@sortablelink('supplier.name', 'Ouvrier assigné')</th>
+                                    <th scope="col">@sortablelink('purchase_date', 'Date de paiement')</th>
+                                    <th scope="col">@sortablelink('Total payé')</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -83,9 +83,14 @@
                                     <td>{{ $purchase->supplier->name }}</td>
                                     <td>{{ $purchase->purchase_date }}</td>
                                     <td>{{ $purchase->total_amount }}</td>
-                                    <td>
-                                        <span class="btn btn-{{ $purchase->purchase_status == 0 ? 'warning' : 'success' }} btn-sm text-uppercase">{{ $purchase->purchase_status == 0 ? 'pending' : 'approved' }}</span>
+                                   <td>
+                                        @if ($purchase->purchase_status == 'paid')
+                                            <span class="btn btn-success btn-sm text-uppercase">Paid</span>
+                                        @else
+                                            <span class="btn btn-warning btn-sm text-uppercase">approved</span>
+                                        @endif
                                     </td>
+
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('purchases.purchaseDetails', $purchase->id) }}" class="btn btn-outline-success btn-sm mx-1"><i class="fa-solid fa-eye"></i></a>

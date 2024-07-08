@@ -51,7 +51,7 @@ class PurchaseController extends Controller
         }
 
         $purchases = Purchase::with(['supplier'])
-            ->where('purchase_status', 1) // 1 = approved
+            ->where('status', "paid") // 1 = approved
             ->sortable()
             ->paginate($row)
             ->appends(request()->query());
@@ -192,11 +192,12 @@ class PurchaseController extends Controller
             abort(400, 'The per-page parameter must be an integer between 1 and 100.');
         }
 
-        $purchases = Purchase::with(['supplier'])
-            ->where('purchase_date', Carbon::now()->format('Y-m-d')) // 1 = approved
+         $purchases = Purchase::with(['supplier'])
+            ->where('status', "pending") // 1 = approved
             ->sortable()
             ->paginate($row)
             ->appends(request()->query());
+
 
         return view('purchases.purchases', [
             'purchases' => $purchases

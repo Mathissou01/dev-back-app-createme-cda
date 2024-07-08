@@ -82,8 +82,8 @@
                                     <td>{{ $admin->email }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('users.edit', $admin->username) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('users.destroy', $admin->username) }}" method="POST">
+                                            <a href="{{ route('admins.edit', $admin->username) }}" class="btn btn-outline-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                            <form action="{{ route('admins.destroy', $admin->username) }}" method="POST">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">

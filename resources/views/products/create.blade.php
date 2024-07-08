@@ -64,6 +64,15 @@
                             </div>
                             @enderror
                         </div>
+                           {{-- <div class="mb-3">
+                            <label class="small mb-1" for="product_image">Lien de l'image du produit <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-solid @error('product_image') is-invalid @enderror" id="product_image" name="product_image" type="text" placeholder="" value="{{ old('product_image') }}" autocomplete="off"/>
+                            @error('product_image')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div> --}}
                         <!-- Form Row -->
                         <div class="row gx-3 mb-3 pt-3">
                             <!-- Form Group (type of product category) -->

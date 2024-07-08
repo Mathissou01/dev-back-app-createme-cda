@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<!-- BEGIN: Header -->
+<!-- DÉBUT : En-tête -->
 <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
     <div class="container-xl px-4">
         <div class="page-header-content pt-4">
@@ -9,12 +9,12 @@
                 <div class="col-auto my-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-clock"></i></div>
-                        Commande completées
+                        Commandes complétées
                     </h1>
                 </div>
                 <div class="col-auto my-4">
                     <a href="{{ route('pos.index') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
-                    <a href="{{ route('products.index') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Raffraichir</a>
+                    <a href="{{ route('products.index') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Rafraîchir</a>
                 </div>
             </div>
 
@@ -67,19 +67,19 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">Id.</th>
-                                    <th scope="col">Invoice</th>
-                                    <th scope="col">@sortablelink('customer.name', 'name')</th>
+                                    <th scope="col">Facture</th>
+                                    <th scope="col">@sortablelink('customer.name', 'Nom')</th>
                                     <th scope="col">@sortablelink('order_date', 'Date')</th>
-                                    <th scope="col">Payment</th>
+                                    <th scope="col">Paiement</th>
                                     <th scope="col">@sortablelink('total')</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">Statut</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($orders as $order)
                                 <tr>
-                                    <th scope="row">{{ (($orders->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
+                                    <th scope="row">{{ (($orders->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration }}</th>
                                     <td>{{ $order->invoice_no }}</td>
                                     <td>{{ $order->customer->name }}</td>
                                     <td>{{ $order->order_date }}</td>
@@ -106,5 +106,5 @@
         </div>
     </div>
 </div>
-<!-- END: Main Page Content -->
+<!-- FIN : Contenu principal de la page -->
 @endsection

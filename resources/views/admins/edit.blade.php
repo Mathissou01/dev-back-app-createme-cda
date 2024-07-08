@@ -14,13 +14,13 @@
                 </div>
             </div>
 
-            @include('partials._breadcrumbs', ['model' => $user])
+            @include('partials._breadcrumbs', ['model' => $admin])
         </div>
     </div>
 </header>
 
 <div class="container-xl px-2 mt-n10">
-    <form action="{{ route('users.update', $user->username) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admins.update', $admin->username) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="row">
@@ -30,7 +30,7 @@
                     <div class="card-header">Photo de profil</div>
                     <div class="card-body text-center">
                         <!-- Profile picture image -->
-                        <img class="img-account-profile rounded-circle mb-2" src="{{ $user->photo ? asset('storage/profile/'.$user->photo) : asset('assets/img/demo/user-placeholder.svg') }}" alt="" id="image-preview" />
+                        <img class="img-account-profile rounded-circle mb-2" src="{{ $admin->photo ? asset('storage/profile/'.$admin->photo) : asset('assets/img/demo/user-placeholder.svg') }}" alt="" id="image-preview" />
                         <!-- Profile picture help block -->
                         <div class="small font-italic text-muted mb-2">JPG ou PNG, de maximum 1 MB</div>
                         <!-- Profile picture input -->
@@ -54,7 +54,7 @@
                         <!-- Form Group (name) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="name">Nom <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name', $user->name) }}" />
+                            <input class="form-control form-control-solid @error('name') is-invalid @enderror" id="name" name="name" type="text" placeholder="" value="{{ old('name', $admin->name) }}" />
                             @error('name')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -64,7 +64,7 @@
                         <!-- Form Group (email address) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="email">Adresse email <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('email') is-invalid @enderror" id="email" name="email" type="text" placeholder="" value="{{ old('email', $user->email) }}" />
+                            <input class="form-control form-control-solid @error('email') is-invalid @enderror" id="email" name="email" type="text" placeholder="" value="{{ old('email', $admin->email) }}" />
                             @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -74,7 +74,7 @@
                         <!-- Form Group (username) -->
                         <div class="mb-3">
                             <label class="small mb-1" for="username">Pseudonyme <span class="text-danger">*</span></label>
-                            <input class="form-control form-control-solid @error('username') is-invalid @enderror" id="username" name="username" type="text" placeholder="" value="{{ old('username', $user->username) }}" />
+                            <input class="form-control form-control-solid @error('username') is-invalid @enderror" id="username" name="username" type="text" placeholder="" value="{{ old('username', $admin->username) }}" />
                             @error('username')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -92,7 +92,7 @@
         </div>
     </form>
 
-    <form action="{{ route('users.updatePassword', $user->username) }}" method="POST">
+    <form action="{{ route('users.updatePassword', $admin->username) }}" method="POST">
         @csrf
         @method('put')
         <div class="row">
@@ -130,7 +130,7 @@
 
                         <!-- Submit button -->
                         <button class="btn btn-primary" type="submit"  onclick="return confirm('Do you want to change the password?')">Sauvegarder</button>
-                        <a class="btn btn-danger" href="{{ route('users.index') }}">Retour</a>
+                        <a class="btn btn-danger" href="{{ route('admins.index') }}">Retour</a>
                     </div>
                 </div>
                 <!-- END: Change Password -->

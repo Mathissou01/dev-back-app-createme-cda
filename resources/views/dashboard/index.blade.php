@@ -147,84 +147,84 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
     <script>
-        // JavaScript pour initialiser les graphiques avec Chart.js
-        var revenuesByMonthData = {!! $revenuesByMonth !!}; // Assurez-vous d'avoir les données correctes des revenus par mois
+// JavaScript pour initialiser les graphiques avec Chart.js
+var revenuesByMonthData = {!! $revenuesByMonth !!}; // Assurez-vous d'avoir les données correctes des revenus par mois
 
-        // Fonction pour formater les nombres avec des décimales
-        function number_format(value) {
-            return value.toString(); // Format pour le montant total des revenus
-        }
+// Fonction pour formater les nombres avec des décimales
+function number_format(value) {
+    return value.toString(); // Format pour le montant total des revenus
+}
 
-        // Configuration et initialisation des graphiques
-        var ctx1 = document.getElementById('myAreaChart').getContext('2d');
-        var myAreaChart = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aut', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Revenues',
-                    data: Object.values(revenuesByMonthData), // Utilisation des données réelles des revenus par mois
-                    backgroundColor: 'rgba(78, 115, 223, 0.05)',
-                    borderColor: 'rgba(78, 115, 223, 1)',
-                    pointBackgroundColor: 'rgba(78, 115, 223, 1)',
-                    pointBorderColor: 'rgba(78, 115, 223, 1)',
-                    pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
-                    pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
-                    pointRadius: 3,
-                    pointHitRadius: 10,
-                    fill: true
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: false
+// Configuration et initialisation des graphiques
+var ctx1 = document.getElementById('myAreaChart').getContext('2d');
+var myAreaChart = new Chart(ctx1, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aut', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+            label: 'Revenues',
+            data: Object.values(revenuesByMonthData), // Utilisation des données réelles des revenus par mois
+            backgroundColor: 'rgba(255, 99, 132, 0.05)', // Rouge avec transparence
+            borderColor: 'rgba(255, 99, 132, 1)', // Rouge
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Rouge
+            pointBorderColor: 'rgba(255, 99, 132, 1)', // Rouge
+            pointHoverBackgroundColor: 'rgba(255, 99, 132, 1)', // Rouge
+            pointHoverBorderColor: 'rgba(255, 99, 132, 1)', // Rouge
+            pointRadius: 3,
+            pointHitRadius: 10,
+            fill: true
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        legend: {
+            display: false
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'date'
                 },
-                scales: {
-                    xAxes: [{
-                        time: {
-                            unit: 'date'
-                        },
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            maxTicksLimit: 12
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            maxTicksLimit: 5,
-                            padding: 10,
-                            callback: function(value, index, values) {
-                                return number_format(value);
-                            }
-                        },
-                        gridLines: {
-                            color: 'rgb(234, 236, 244)',
-                            zeroLineColor: 'rgb(234, 236, 244)',
-                            drawBorder: false,
-                            borderDash: [2],
-                            zeroLineBorderDash: [2]
-                        }
-                    }]
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 12
                 }
-            }
-        });
+            }],
+            yAxes: [{
+                ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    callback: function(value, index, values) {
+                        return number_format(value);
+                    }
+                },
+                gridLines: {
+                    color: 'rgba(255, 255, 255, 1)', // Blanc
+                    zeroLineColor: 'rgba(255, 255, 255, 1)', // Blanc
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                }
+            }]
+        }
+    }
+});
 
-       var ctx2 = document.getElementById('myBarChart').getContext('2d');
+var ctx2 = document.getElementById('myBarChart').getContext('2d');
 var myBarChart = new Chart(ctx2, {
     type: 'bar',
     data: {
         labels: ['Janv', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'],
         datasets: [{
             label: 'Nombre de commandes',
-            backgroundColor: '#4e73df',
-            hoverBackgroundColor: '#2e59d9',
-            borderColor: '#4e73df',
-            data: {!! $ordersByMonth !!}, // Assurez-vous que les données sont passées correctement
+            backgroundColor: 'rgba(255, 55, 25, 1)', // Noir
+            hoverBackgroundColor: 'rgba(255, 99, 132, 1)', // Rouge
+            borderColor: 'rgba(0, 0, 0, 1)', // Noir
+            data: {!! $ordersByMonth !!}, 
             maxBarThickness: 25,
         }]
     },
@@ -259,8 +259,8 @@ var myBarChart = new Chart(ctx2, {
                     }
                 },
                 gridLines: {
-                    color: 'rgb(234, 236, 244)',
-                    zeroLineColor: 'rgb(234, 236, 244)',
+                    color: 'rgba(255, 255, 255, 1)', // Blanc
+                    zeroLineColor: 'rgba(255, 255, 255, 1)', // Blanc
                     drawBorder: false,
                     borderDash: [2],
                     zeroLineBorderDash: [2]
@@ -292,26 +292,25 @@ var myBarChart = new Chart(ctx2, {
     }
 });
 
-        // Litepicker pour la sélection des dates
-        var picker = new Litepicker({
-            element: document.getElementById('litepickerRangePlugin'),
-            format: 'YYYY-MM-DD',
-            lang: 'fr',
-            singleMode: false,
-            numberOfMonths: 1,
-            numberOfColumns: 1,
-            autoApply: true,
-            resetButton: true,
-            tooltipText: {
-                one: 'jour',
-                other: 'jours'
-            },
-            setup: (picker) => {
-                picker.on('selected', (date1, date2) => {
-                    console.log(date1, date2);
-                });
-            }
+// Litepicker pour la sélection des dates
+var picker = new Litepicker({
+    element: document.getElementById('litepickerRangePlugin'),
+    format: 'YYYY-MM-DD',
+    lang: 'fr',
+    singleMode: false,
+    numberOfMonths: 1,
+    numberOfColumns: 1,
+    autoApply: true,
+    resetButton: true,
+    tooltipText: {
+        one: 'jour',
+        other: 'jours'
+    },
+    setup: (picker) => {
+        picker.on('selected', (date1, date2) => {
+            console.log(date1, date2);
         });
-    </script>
+    }
+});
+</script>
 @endpush
-

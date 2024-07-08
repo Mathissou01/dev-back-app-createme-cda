@@ -86,11 +86,12 @@
                                 @foreach ($products as $product)
                                 <tr>
                                     <th scope="row">{{ (($products->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
-                                    <td>
-                                        <div style="max-height: 80px; max-width: 80px;">
-                                            <img class="img-fluid" src="{{ $product->product_image }}">
+                                   <td>
+                                        <div style="overflow: hidden;">
+                                            <img class="img-fluid" src="{{ $product->product_image }}" style="object-fit: contain; width: 80px; height: 80px">
                                         </div>
                                     </td>
+
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{{ $product->stock }}</td>

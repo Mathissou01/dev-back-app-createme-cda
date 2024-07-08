@@ -63,19 +63,6 @@ class ProductController extends Controller
     {
         $product = Product::create($request->all());
 
-        /**
-         * Handle upload image
-         */
-        if($request->hasFile('product_image')){
-            $file = $request->file('product_image');
-            $filename = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-
-            $file->storeAs('products/', $filename, 'public');
-            $product->update([
-                'product_image' => $filename
-            ]);
-        }
-
         return redirect()
             ->route('products.index')
             ->with('success', 'Product has been created!');
@@ -114,31 +101,6 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->except('product_image'));
-
-        /**
-         * Handle upload an image
-         */
-        if($request->hasFile('product_image')){
-
-            // Delete Old Photo
-            if($product->product_image){
-                unlink(public_path('storage/products/') . $product->product_image);
-            }
-
-            // Prepare New Photo
-            $file = $request->file('product_image');
-            $fileName = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-
-            // Store an image to Storage
-            $file->storeAs('products/', $fileName, 'public');
-
-            // Save DB
-            $product->update([
-                'product_image' => $fileName
-            ]);
-        }
-
         return redirect()
             ->route('products.index')
             ->with('success', 'Product has been updated!');
@@ -149,12 +111,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        /**
-         * Delete photo if exists.
-         */
-        if($product->product_image){
-            unlink(public_path('storage/products/') . $product->product_image);
-        }
 
         $product->delete();
 
@@ -225,29 +181,45 @@ class ProductController extends Controller
         // Retrieve all products and sort them by product name
         $products = Product::all()->sortBy('product_name');
 
-        // Initialize an array with the column headers for the Excel export
+        // Initialiser un tableau avec les en-têtes des colonnes pour l'export Excel
         $product_array[] = array(
-            'Product Name',
-            'Category Id',
-            'Unit Id',
-            'Product Code',
+            'ID',
+            'Nom du produit',
+            'Petite description',
+            'Description',
+            'ID de la catégorie',
+            'ID de l\'unité',
+            'Code du produit',
             'Stock',
-            'Buying Price',
-            'Selling Price',
-            'Product Image',
+            'Activé',
+            'Matériaux',
+            'Prix d\'achat',
+            'Prix de vente',
+            'Image du produit',
+            'Difficulté',
+            'Créé le',
+            'Modifié le',
         );
 
-        // Add each product to the data array
-        foreach($products as $product) {
+        // Ajouter chaque produit au tableau de données
+        foreach ($products as $product) {
             $product_array[] = array(
+                $product->id,
                 $product->product_name,
+                $product->small_description,
+                $product->description,
                 $product->category_id,
                 $product->unit_id,
                 $product->product_code,
                 $product->stock,
+                $product->isActive ? 'Oui' : 'Non',
+                implode(', ', (array) $product->materials), // Assurez-vous que $product->materials est un tableau ou une chaîne
                 $product->buying_price,
                 $product->selling_price,
                 $product->product_image,
+                $product->difficulty,
+                $product->created_at,
+                $product->updated_at,
             );
         }
 
@@ -260,66 +232,92 @@ class ProductController extends Controller
      * 
      * @param array $products - The array of products to export
      */
-    public function exportExcel($products)
-    {
-        // Increase maximum execution time and memory limit to handle large data
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', '4000M');
 
-        try {
-            // Create a new instance of Spreadsheet
-            $spreadSheet = new Spreadsheet();
-            $sheet = $spreadSheet->getActiveSheet();
+public function exportExcel($products)
+{
+    // Increase maximum execution time and memory limit to handle large data
+    ini_set('max_execution_time', 0);
+    ini_set('memory_limit', '4000M');
 
-            // Add styles to the headers
-            $headerStyle = [
-                'font' => [
-                    'bold' => true,
+    try {
+        // Create a new instance of Spreadsheet
+        $spreadSheet = new Spreadsheet();
+        $sheet = $spreadSheet->getActiveSheet();
+
+        // Add styles to the headers
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'color' => ['argb' => 'FFFFFF'], // Text color
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '0072C6', // Header background color
                 ],
-                'fill' => [
-                    'fillType' => Fill::FILL_SOLID,
-                    'startColor' => [
-                        'argb' => 'FFFF00',
-                    ],
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
                 ],
-                'borders' => [
-                    'allBorders' => [
-                        'borderStyle' => Border::BORDER_THIN,
-                    ],
-                ],
-                'alignment' => [
-                    'horizontal' => Alignment::HORIZONTAL_CENTER,
-                ],
-            ];
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+        ];
 
-            // Apply styles to the headers
-            $sheet->fromArray($products, NULL, 'A1');
-            $sheet->getStyle('A1:H1')->applyFromArray($headerStyle);
+        // Apply styles to the headers
+        $sheet->fromArray($products, NULL, 'A1');
+        $sheet->getStyle('A1:P1')->applyFromArray($headerStyle);
 
-            // Auto-size columns based on content
-            foreach(range('A', $sheet->getHighestColumn()) as $columnID) {
-                $sheet->getColumnDimension($columnID)->setAutoSize(true);
-            }
-
-            // Create a new sheet for additional information
-            $infoSheet = $spreadSheet->createSheet();
-            $infoSheet->setTitle('General Information');
-            $infoSheet->setCellValue('A1', 'Export Date');
-            $infoSheet->setCellValue('B1', date('Y-m-d H:i:s'));
-            $infoSheet->setCellValue('A2', 'Total Products');
-            $infoSheet->setCellValue('B2', count($products) - 1); // Including header
-
-            // Create a writer to generate an Excel file in .xls format
-            $Excel_writer = new Xls($spreadSheet);
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="products.xls"');
-            header('Cache-Control: max-age=0');
-            ob_end_clean(); // Clean output buffer to avoid unwanted characters
-            $Excel_writer->save('php://output'); // Save the Excel file to output stream (download)
-            exit(); // End script to avoid any additional output
-        } catch (Exception $e) {
-            // In case of an exception, simply return without doing anything
-            return;
+        // Auto-size columns based on content
+        foreach(range('A', $sheet->getHighestColumn()) as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
+
+        // Create a new sheet for additional information
+        $infoSheet = $spreadSheet->createSheet();
+        $infoSheet->setTitle('Informations générales');
+        $infoSheet->setCellValue('A1', 'Date d\'export');
+        $infoSheet->setCellValue('B1', date('Y-m-d H:i:s'));
+        $infoSheet->setCellValue('A2', 'Total des produits');
+        $infoSheet->setCellValue('B2', count($products) - 1); // Including header
+
+        // Apply styles to the information sheet
+        $infoSheet->getStyle('A1:B2')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['argb' => 'FFFFFF'], // Text color
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '0072C6', // Header background color
+                ],
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+        ]);
+
+        // Create a writer to generate an Excel file in .xls format
+        $Excel_writer = new Xls($spreadSheet);
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="products.xls"');
+        header('Cache-Control: max-age=0');
+        ob_end_clean(); // Clean output buffer to avoid unwanted characters
+        $Excel_writer->save('php://output'); // Save the Excel file to output stream (download)
+        exit(); // End script to avoid any additional output
+    } catch (Exception $e) {
+        // In case of an exception, simply return without doing anything
+        return;
     }
+}
 }

@@ -7,11 +7,6 @@
                 <div class="nav-link-icon"><i data-feather="activity"></i></div>
                 Accueil
             </a>
-            <a class="nav-link {{ Request::is('pos*') ? 'active' : '' }}" href="{{ route('pos.index') }}">
-                <div class="nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                POS
-            </a>
-
             <!-- Sidenav Heading (Orders)-->
             <div class="sidenav-menu-heading">Commandes</div>
             <a class="nav-link {{ Request::is('orders/complete*') ? 'active' : '' }}" href="{{ route('order.completeOrders') }}">
@@ -30,7 +25,7 @@
             <div class="sidenav-menu-heading">Achats</div>
             <a class="nav-link {{ Request::is('purchases', 'purchase/create*', 'purchases/details*') ? 'active' : '' }}" href="{{ route('purchases.allPurchases') }}">
                 <div class="nav-link-icon"><i class="fa-solid fa-cash-register"></i></div>
-                Toutes
+                Tout
             </a>
             <a class="nav-link {{ Request::is('purchases/approved*') ? 'active' : '' }}" href="{{ route('purchases.approvedPurchases') }}">
                 <div class="nav-link-icon"><i class="fa-solid fa-circle-check"></i></div>
@@ -38,7 +33,7 @@
             </a>
             <a class="nav-link {{ Request::is('purchases/report*') ? 'active' : '' }}" href="{{ route('purchases.dailyPurchaseReport') }}">
                 <div class="nav-link-icon"><i class="fa-solid fa-flag"></i></div>
-                Reporté
+                Décliné
             </a>
             <!-- Sidenav Heading (Pages)-->
             <div class="sidenav-menu-heading">Pages</div>

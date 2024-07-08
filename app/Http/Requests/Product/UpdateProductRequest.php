@@ -22,7 +22,6 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_image' => 'image|file|max:2048',
             'product_name' => 'required|string',
             'category_id' => 'required|integer',
             'unit_id' => 'required|integer',

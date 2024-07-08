@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<!-- BEGIN: Header -->
+<!-- DÉBUT : En-tête -->
 <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
     <div class="container-xl px-4">
         <div class="page-header-content pt-4">
@@ -9,13 +9,13 @@
                 <div class="col-auto my-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-cash-register"></i></div>
-                        Purchase List
+                        Liste des Achats
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('purchases.getPurchaseReport') }}" class="btn btn-success add-list my-1"><i class="fa-solid fa-file-export me-3"></i>Export</a>
-                    <a href="{{ route('purchases.createPurchase') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Add</a>
-                    <a href="{{ route('purchases.allPurchases') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Clear Search</a>
+                    <a href="{{ route('purchases.getPurchaseReport') }}" class="btn btn-success add-list my-1"><i class="fa-solid fa-file-export me-3"></i>Exporter</a>
+                    <a href="{{ route('purchases.createPurchase') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
+                    <a href="{{ route('purchases.allPurchases') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Effacer la Recherche</a>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                     <form action="#" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
-                                <label for="row" class="col-auto">Row:</label>
+                                <label for="row" class="col-auto">Ligne :</label>
                                 <div class="col-auto">
                                     <select class="form-control" name="row">
                                         <option value="10" @if(request('row') == '10')selected="selected"@endif>10</option>
@@ -46,10 +46,10 @@
                             </div>
 
                             <div class="form-group row align-items-center justify-content-between">
-                                <label class="control-label col-sm-3" for="search">Search:</label>
+                                <label class="control-label col-sm-3" for="search">Rechercher :</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Search order" value="{{ request('search') }}">
+                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Rechercher une commande" value="{{ request('search') }}">
                                         <div class="input-group-append">
                                             <button type="submit" class="input-group-text bg-primary"><i class="fa-solid fa-magnifying-glass font-size-20 text-white"></i></button>
                                         </div>
@@ -68,11 +68,11 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Purchase</th>
-                                    <th scope="col">@sortablelink('supplier.name', 'Supplier')</th>
-                                    <th scope="col">@sortablelink('purchase_date', 'Date')</th>
-                                    <th scope="col">@sortablelink('total')</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">ACHAT</th>
+                                    <th scope="col">@sortablelink('supplier.name', 'Ouvrier attribué')</th>
+                                    <th scope="col">@sortablelink('purchase_date', 'Date de paiement')</th>
+                                    <th scope="col">@sortablelink('Total payé')</th>
+                                    <th scope="col">Statut</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -82,11 +82,11 @@
                                     <th scope="row">{{ (($purchases->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
                                     <td>{{ $purchase->purchase_no }}</td>
                                     <td>{{ $purchase->supplier->name }}</td>
-                                    <td>{{ $purchase->purchase_date }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('Y-m-d H:i:s') }}</td>
                                     <td>{{ $purchase->total_amount }}</td>
-                                    @if ($purchase->purchase_status == 1)
+                                    @if ($purchase->status === "paid")
                                         <td>
-                                            <span class="btn btn-success btn-sm text-uppercase">approved</span>
+                                            <span class="btn btn-success btn-sm text-uppercase">PAYÉ</span>
                                         </td>
                                         <td>
                                             <div class="d-flex">
@@ -95,7 +95,7 @@
                                         </td>
                                     @else
                                         <td>
-                                            <span class="btn btn-warning btn-sm text-uppercase">pending</span>
+                                            <span class="btn btn-warning btn-sm text-uppercase">EN ATTENTE</span>
                                         </td>
                                         <td>
                                             <div class="d-flex">
@@ -103,7 +103,7 @@
                                                 <form action="{{ route('purchases.deletePurchase', $purchase->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')">
                                                         <i class="far fa-trash-alt"></i>
                                                     </button>
                                                 </form>
@@ -122,5 +122,5 @@
         </div>
     </div>
 </div>
-<!-- END: Main Page Content -->
+<!-- FIN : Contenu de la Page Principale -->
 @endsection

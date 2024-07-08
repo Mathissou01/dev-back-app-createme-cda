@@ -37,7 +37,7 @@
                     <form action="{{ route('users.index') }}" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
-                                <label for="row" class="col-auto">Row:</label>
+                                <label for="row" class="col-auto">Ligne:</label>
                                 <div class="col-auto">
                                     <select class="form-control" name="row">
                                         <option value="10" @if(request('row') == '10')selected="selected"@endif>10</option>
@@ -80,7 +80,12 @@
                                 @foreach ($users as $user)
                                 <tr>
                                     <th scope="row">{{ (($users->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
-                                    <td>{{ $user->userName }}</td>
+                                   @php
+                                        $userName = $user->userName;
+                                        $formattedUserName = str_replace('.', ' ', $userName);
+                                    @endphp
+
+                                    <td>{{ $formattedUserName }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <div class="d-flex">

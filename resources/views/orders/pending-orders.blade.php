@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<!-- BEGIN: Header -->
+<!-- DÉBUT : En-tête -->
 <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
     <div class="container-xl px-4">
         <div class="page-header-content pt-4">
@@ -9,12 +9,12 @@
                 <div class="col-auto my-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-clock"></i></div>
-                        Pending Orders
+                        Commandes en attente
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('pos.index') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Add</a>
-                    <a href="{{ route('products.index') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Clear Search</a>
+                    <a href="{{ route('pos.index') }}" class="btn btn-primary add-list my-1"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
+                    <a href="{{ route('products.index') }}" class="btn btn-danger add-list my-1"><i class="fa-solid fa-trash me-3"></i>Effacer la recherche</a>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                     <form action="#" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
-                                <label for="row" class="col-auto">Row:</label>
+                                <label for="row" class="col-auto">Ligne :</label>
                                 <div class="col-auto">
                                     <select class="form-control" name="row">
                                         <option value="10" @if(request('row') == '10')selected="selected"@endif>10</option>
@@ -45,10 +45,10 @@
                             </div>
 
                             <div class="form-group row align-items-center justify-content-between">
-                                <label class="control-label col-sm-3" for="search">Search:</label>
+                                <label class="control-label col-sm-3" for="search">Recherche :</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Search order" value="{{ request('search') }}">
+                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Chercher une commande" value="{{ request('search') }}">
                                         <div class="input-group-append">
                                             <button type="submit" class="input-group-text bg-primary"><i class="fa-solid fa-magnifying-glass font-size-20 text-white"></i></button>
                                         </div>
@@ -67,19 +67,19 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Invoice</th>
-                                    <th scope="col">@sortablelink('customer.name', 'name')</th>
+                                    <th scope="col">Facture</th>
+                                    <th scope="col">@sortablelink('customer.name', 'Nom')</th>
                                     <th scope="col">@sortablelink('order_date', 'Date')</th>
-                                    <th scope="col">Payment</th>
+                                    <th scope="col">Paiement</th>
                                     <th scope="col">@sortablelink('total')</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">Statut</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($orders as $order)
                                 <tr>
-                                    <th scope="row">{{ (($orders->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration  }}</th>
+                                    <th scope="row">{{ (($orders->currentPage() * (request('row') ? request('row') : 10)) - (request('row') ? request('row') : 10)) + $loop->iteration }}</th>
                                     <td>{{ $order->invoice_no }}</td>
                                     <td>{{ $order->customer->name }}</td>
                                     <td>{{ $order->order_date }}</td>
@@ -105,5 +105,5 @@
         </div>
     </div>
 </div>
-<!-- END: Main Page Content -->
+<!-- FIN : Contenu principal de la page -->
 @endsection

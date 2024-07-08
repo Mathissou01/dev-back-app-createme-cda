@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<!-- BEGIN: Header -->
+<!-- DÉBUT: En-tête -->
 <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
     <div class="container-xl px-4">
         <div class="page-header-content pt-4">
@@ -9,12 +9,12 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i class="fa-solid fa-users"></i></div>
-                        Supplier List
+                        Liste des Fournisseurs
                     </h1>
                 </div>
                 <div class="col-auto my-4">
-                    <a href="{{ route('suppliers.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Add</a>
-                    <a href="{{ route('suppliers.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Clear Search</a>
+                    <a href="{{ route('suppliers.create') }}" class="btn btn-primary add-list"><i class="fa-solid fa-plus me-3"></i>Ajouter</a>
+                    <a href="{{ route('suppliers.index') }}" class="btn btn-danger add-list"><i class="fa-solid fa-trash me-3"></i>Effacer la Recherche</a>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                     <form action="{{ route('suppliers.index') }}" method="GET">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="form-group row align-items-center">
-                                <label for="row" class="col-auto">Row:</label>
+                                <label for="row" class="col-auto">Ligne :</label>
                                 <div class="col-auto">
                                     <select class="form-control" name="row">
                                         <option value="10" @if(request('row') == '10')selected="selected"@endif>10</option>
@@ -45,10 +45,10 @@
                             </div>
 
                             <div class="form-group row align-items-center justify-content-between">
-                                <label class="control-label col-sm-3" for="search">Search:</label>
+                                <label class="control-label col-sm-3" for="search">Recherche :</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Search supplier" value="{{ request('search') }}">
+                                        <input type="text" id="search" class="form-control me-1" name="search" placeholder="Rechercher un fournisseur" value="{{ request('search') }}">
                                         <div class="input-group-append">
                                             <button type="submit" class="input-group-text bg-primary"><i class="fa-solid fa-magnifying-glass font-size-20 text-white"></i></button>
                                         </div>
@@ -67,10 +67,10 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">@sortablelink('name')</th>
-                                    <th scope="col">@sortablelink('email')</th>
-                                    <th scope="col">@sortablelink('shopname')</th>
-                                    <th scope="col">Phone</th>
+                                    <th scope="col">@sortablelink('name', 'Nom')</th>
+                                    <th scope="col">@sortablelink('email', 'Email')</th>
+                                    <th scope="col">@sortablelink('shopname', 'Nom du Magasin')</th>
+                                    <th scope="col">Téléphone</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -88,7 +88,7 @@
                                             <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST">
                                                 @method('delete')
                                                 @csrf
-                                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?')">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -106,5 +106,5 @@
         </div>
     </div>
 </div>
-<!-- END: Main Page Content -->
+<!-- FIN: Contenu de la page principale -->
 @endsection
